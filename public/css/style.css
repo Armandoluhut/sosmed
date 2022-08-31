@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+    padding: o;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+form.auth {
+    width: 360px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 24px 36px;
+}
+
+form.auth input {
+    padding: 8px 12px;
+    width: 100%;
+    border: 1px solid darkcyan;
+    margin-bottom: 12px;
+}
+
+form.auth button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background-color: bisque;
+}
