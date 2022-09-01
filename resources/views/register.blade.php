@@ -1,5 +1,7 @@
 <x-layouts>
     
+    <section id="auth">
+    <div class="container">
     <form class="auth" action="/register" method="POST">
         @csrf
         <input type="text" placeholder="name" name="name"><br>
@@ -23,5 +25,6 @@
         <button type="submit">Register</button>
     </form>
     <a href="/login">login</a>
-
+</div>
+</section>
 </x-layouts>

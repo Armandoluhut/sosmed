@@ -33,33 +33,54 @@ Route::get('/', function () {
     ]);
 })->middleware('auth');
 
+Route::controller(RegisterController::class)->group(function () {
+    Route::middleware(['guest'])->group(function () {
+        Route::prefix('/register')->group(function () {
+            Route::get('/', 'register');
+            Route::post('/', 'registerUseer');
+        });
+    });
+});
+// Route::get('/register', [RegisterController::class, 'register'])->middleware('guest');
 
-Route::get('/register', [RegisterController::class, 'register'])->middleware('guest');
-
-Route::post('/register', [RegisterController::class, 'registerUser'])->middleware('guest');
-
-Route::get('/login', [LoginController::class, 'login'])->middleware('guest')->name('login');
-
-Route::post('/login', [LoginController::class, 'loginUser'])->middleware('guest');
-
-Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
-
-
-
-Route::post('/post', [PostController::class, 'postCreate'])->middleware('auth');
-
-Route::get('/post/edit/{post:id}', [PostController::class, 'post'])->middleware('auth');
-
-Route::post('post/edit/{post:id}', [PostController::class, 'postEdit'])->middleware('auth');
-
-Route::get('/post/delete/{post:id}', [PostController::class, 'postDelete'])->middleware('auth');
+Route::controller(LoginController::class)->group(function () {
+    Route::middleware(['guest'])->group(function () {
+        Route::prefix('/login')->group(function () {
+            Route::get('/', 'login')->name('login');
+            Route::post('/', 'loginUser');
+        });
+    });
+    Route::get('/logout', 'logout')->middleware('auth');
+});
+//Route::get('/login', [LoginController::class, 'login'])->middleware('guest')->name('login');
 
 
+Route::controller(PostController::class)->group(function () {
+    Route::middleware(['auth'])->group(function () {
+        Route::prefix('/post')->group(function () {
+            Route::post('/', 'postCreate');
+            Route::get('/edit/{post:id}', 'post');
+            Route::post('/edit/{post:id}', 'postEdit');
+            Route::get('/delete/{post:id}', 'postDelete');
+        });
+    });
+});
+// Route::post('/post', [PostController::class, 'postCreate'])->middleware('auth');
+// Route::get('/post/edit/{post:id}', [PostController::class, 'post'])->middleware('auth');
 
-Route::post('/comment/{post:id}', [CommentController::class, 'commentCreate'])->middleware('auth');
 
-Route::get('/comment/edit/{comment:id}', [CommentController::class, 'comment'])->middleware('auth');
+Route::controller(CommentController::class)->group(function () {
+    Route::middleware(['auth'])->group(function () {
+        Route::prefix('/comment')->group(function () {
+            Route::post('/{post:id}', 'commentCreate');
+            Route::get('/edit/{comment:id}', 'comment');
+            Route::post('/edit/{comment:id}', 'commentEdit');
+            Route::get('/delete/{comment:id}', 'commentDelete');
+        });
+    });
+});
 
-Route::post('comment/edit/{comment:id}', [CommentController::class, 'commentEdit'])->middleware('auth');
-
-Route::get('/comment/delete/{comment:id}', [CommentController::class, 'commentDelete`'])->middleware('auth');
+// Route::post('/comment/{post:id}', [CommentController::class, 'commentCreate'])->middleware('auth');
+// Route::get('/comment/edit/{comment:id}', [CommentController::class, 'comment'])->middleware('auth');
+// Route::post('comment/edit/{comment:id}', [CommentController::class, 'commentEdit'])->middleware('auth');
+// Route::get('/comment/delete/{comment:id}', [CommentController::class, 'commentDelete`'])->middleware('auth');
